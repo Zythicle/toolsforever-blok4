@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-if ($_SESSION['role'] != 'administrator') {
+if ($_SESSION['role'] != 'admin') {
     echo "You are not allowed to view this page, please login as admin";
     exit;
 }
@@ -16,9 +16,9 @@ if ($_SESSION['role'] != 'administrator') {
 require 'database.php';
 
 $sql = "SELECT * FROM tools";
-$result = mysqli_query($conn, $sql);
-$tools = mysqli_fetch_all($result, MYSQLI_ASSOC);
-
+$stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $tools = $stmt->fetchAll(PDO::FETCH_ASSOC);
 require 'header.php';
 ?>
 <main>
