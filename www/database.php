@@ -3,16 +3,12 @@ $dbhost = 'mariadb';
 $dbname = 'tools4ever';
 $dbuser = 'root';
 $dbpass = 'password';
-$conn = new PDO("mysql:host=$dbhost;dbname=$dbname", $dbuser, $dbpass);
+
+try {
+    $conn = new PDO("mysql:host=$dbhost;dbname=$dbname;charset=utf8mb4", $dbuser, $dbpass);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    die('Connection failed: ' . $e->getMessage());
+}
+
 ?>
-
-// Check connection
-if (!$conn) {
-  die("Connection failed: " . mysqli_connect_error());
-}
-
-
-// Check connection
-if (!$conn) {
-  die("Connection failed: " . mysqli_connect_error());
-}

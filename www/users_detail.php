@@ -17,9 +17,10 @@ if ($_SESSION['role'] != 'admin') {
 
 $id = $_GET['id'];
 
-$sql = "SELECT * FROM users LEFT JOIN user_settings ON user_settings.user_id = users.id WHERE users.id =  $id";
-$result = mysqli_query($conn, $sql);
-$user = mysqli_fetch_assoc($result);
+$sql = "SELECT * FROM users LEFT JOIN user_settings ON user_settings.user_id = users.id WHERE users.id = :id";
+$stmt = $conn->prepare($sql);
+$stmt->execute(['id' => $id]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
 
 
 require 'header.php';
@@ -30,15 +31,15 @@ require 'header.php';
     <div class="container">
         <?php if (isset($user)) : ?>
             <div class="user-detail">
-                <h3><?php echo $user['firstname'] ?></h3>
-                <p><?php echo $user['lastname'] ?></p>
-                <p><?php echo $user['email'] ?></p>
-                <p><?php echo $user['role'] ?></p>
-                <p><?php echo $user['address'] ?></p>
-                <p><?php echo $user['city'] ?></p>
+                <h3><?php echo htmlspecialchars($user['firstname'], ENT_QUOTES, 'UTF-8') ?></h3>
+                <p><?php echo htmlspecialchars($user['lastname'], ENT_QUOTES, 'UTF-8') ?></p>
+                <p><?php echo htmlspecialchars($user['email'], ENT_QUOTES, 'UTF-8') ?></p>
+                <p><?php echo htmlspecialchars($user['role'], ENT_QUOTES, 'UTF-8') ?></p>
+                <p><?php echo htmlspecialchars($user['address'], ENT_QUOTES, 'UTF-8') ?></p>
+                <p><?php echo htmlspecialchars($user['city'], ENT_QUOTES, 'UTF-8') ?></p>
                 <p><?php echo $user['is_active'] == 1 ? "is actief" : "Is niet actief"  ?></p>
-                <p><?php echo $user['backgroundColor'] ?></p>
-                <p><?php echo $user['font'] ?></p>
+                <p><?php echo htmlspecialchars($user['backgroundColor'], ENT_QUOTES, 'UTF-8') ?></p>
+                <p><?php echo htmlspecialchars($user['font'], ENT_QUOTES, 'UTF-8') ?></p>
             <?php else : ?>
                 Geen gebruiker gevonden
             <?php endif; ?>
