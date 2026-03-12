@@ -319,3 +319,14 @@ input {
     object-fit: contain;
     border-radius: 50%;
 }
+
+.cart-count {
+    background: #e74c3c;
+    color: #fff;
+    border-radius: 50%;
+    padding: 2px 8px;
+    font-size: 0.9em;
+    margin-left: 6px;
+    font-weight: bold;
+    vertical-align: middle;
+}

@@ -11,12 +11,12 @@ if ($_SESSION['role'] != 'admin') {
     echo "You are not allowed to view this page, please login as admin";
     exit;
 }
+
 require 'database.php';
 
-$sql = "SELECT * FROM users WHERE deleted_at IS NULL";
-$stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+$stmt = $conn->prepare("SELECT * FROM users WHERE deleted_at IS NOT NULL");
+$stmt->execute();
+$users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 require 'header.php';
 ?>
@@ -46,7 +46,7 @@ require 'header.php';
                             Wijzig
                       
                             <!-- <a href="users_edit.php?id=<?php echo $user['id'] ?>">Wijzig</a>  -->
-                            <a href="users_delete.php?id=<?php echo htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') ?>">Verwijder</a>
+                            <a href="users_deleted_restore.php?id=<?php echo htmlspecialchars($user['id'], ENT_QUOTES, 'UTF-8') ?>">Restore</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

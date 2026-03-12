@@ -15,8 +15,7 @@ if ($_SESSION['role'] != 'admin') {
 
 require 'database.php';
 
-$sql = "SELECT * FROM tools";
-$stmt = $conn->prepare($sql);
+$stmt = $conn->prepare("SELECT * FROM tools WHERE deleted_at IS NULL");
     $stmt->execute();
     $tools = $stmt->fetchAll(PDO::FETCH_ASSOC);
 require 'header.php';

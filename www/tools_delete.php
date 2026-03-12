@@ -12,8 +12,7 @@ if(    isset($_GET['id'])     ){
 
     $id = $_GET["id"];
 
-    $sql = "DELETE FROM tools WHERE tool_id = :id";
-    $stmt = $conn->prepare($sql);
+    $stmt = $conn->prepare("UPDATE tools SET deleted_at = NOW() WHERE tool_id = :id");
     $stmt->execute(['id' => $id]);
 
     header("location: tools_index.php");

@@ -8,16 +8,15 @@ if (isset($_POST['submit'])) {
 
             require 'database.php';
 
-            $sql = "SELECT * FROM users WHERE email = :email";
+            $sql = "SELECT * FROM users WHERE email = :email AND deleted_at IS NULL";
             $stmt = $conn->prepare($sql);
             $stmt->execute(['email' => $emailForm]);
             $dbuser = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            //als de email bestaat dan is $dbuser niet false
-            if ($dbuser) {
-
-                if ($dbuser['password'] == $passwordForm) {
-
+            // check if the email exists
+            if ($dbuser !== false) {
+                // verify the password using PHP's built-in function
+                if (password_verify($passwordForm, $dbuser['password'])) {
                     session_start();
                     $_SESSION['user_id']    = $dbuser['id'];
                     $_SESSION['email']      = $dbuser['email'];
@@ -25,7 +24,6 @@ if (isset($_POST['submit'])) {
                     $_SESSION['lastname']   = $dbuser['lastname'];
                     $_SESSION['role']       = $dbuser['role'];
 
-                    // echo "You are logged in";
                     header("Location: dashboard.php");
                     exit;
                 } else {
