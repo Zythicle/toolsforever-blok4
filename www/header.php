@@ -20,7 +20,7 @@
                 <li><a href="index.php">Home</a></li>
                 <li><a href="brands_index.php">Merken</a></li>
                 <li><a href="">Winkelmand</a></li>
-                <span class="cart-counter">
+                <span class="cart-count">
                     <?php echo $_SESSION['cart_count'] ?? 0; ?>
                 </span>
                 <?php if (isset($_SESSION['user_id'])) : ?>
